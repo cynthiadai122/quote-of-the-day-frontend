@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import HomePage from "@/components/HomePage.vue";
-import CategorySelectionPage from "@/components/CategorySelectionPage.vue";
+import CustomizeCategoriesPage from "@/components/CustomizeCategoriesPage.vue";
 import LoginPage from "@/components/LoginPage.vue";
 import RegisterPage from "@/components/RegisterPage.vue";
 
@@ -16,9 +16,9 @@ export default new Router({
       component: HomePage
     },
     {
-      path: "/selectCategory",
-      name: "Select Category",
-      component: CategorySelectionPage
+      path: "/customize-categories",
+      name: "Customize Categories",
+      component: CustomizeCategoriesPage
     },
     {
       path: "/login",
