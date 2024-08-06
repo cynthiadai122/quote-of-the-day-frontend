@@ -32,6 +32,10 @@
               ></v-text-field>
               <v-btn color="primary" type="submit" block>Register</v-btn>
             </v-form>
+            <v-divider class="my-4"></v-divider>
+            <v-btn text @click="$router.push('/login')" class="blue--text">
+              Already have an account? Login
+            </v-btn>
           </v-card-text>
         </v-card>
       </v-col>

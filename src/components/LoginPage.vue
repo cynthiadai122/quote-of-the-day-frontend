@@ -20,6 +20,10 @@
               ></v-text-field>
               <v-btn color="primary" type="submit" block>Login</v-btn>
             </v-form>
+            <v-divider class="my-4"></v-divider>
+            <v-btn text class="blue--text" @click="$router.push('/register')"
+              >Don't have an account? Register</v-btn
+            >
           </v-card-text>
         </v-card>
       </v-col>
@@ -47,6 +51,7 @@ export default {
         });
         const token = response.data.token;
         localStorage.setItem('token', token);
+        this.$router.push('/');
       } catch (error) {
         console.error('Login failed:', error);
       }
