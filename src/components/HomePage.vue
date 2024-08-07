@@ -3,9 +3,15 @@
     <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="6">
         <v-card>
-          <v-card-title class="headline">Quote of the Day</v-card-title>
+          <v-img
+            :src="quote.background"
+            height="200px"
+            class="white--text align-end"
+          >
+            <v-card-title class="headline">{{ quote.title }}</v-card-title>
+          </v-img>
           <v-card-subtitle v-if="quote">
-            <v-card-text>{{ quote.text }}</v-card-text>
+            <v-card-text>{{ quote.quote }}</v-card-text>
             <v-card-subtitle
               class="text-right"
               >{{ quote.author }}</v-card-subtitle
@@ -55,8 +61,8 @@ export default {
     },
     async checkIfFavorite() {
       try {
-        const response = await axios.get('/user/favorites');
-        this.isFavorite = response.data.includes(this.quote.id);
+        const response = await axios.get('/favorites');
+        this.isFavorite = response.data.includes(this.quote?.id);
       } catch (error) {
         console.error('Error checking favorite status:', error);
       }
@@ -65,7 +71,7 @@ export default {
       this.$router.push('/customize-categories');
     },
     viewMissedQuotes() {
-      this.$router.push('/missed-quotes');
+      this.$router.push('/missed');
     },
     async toggleFavoriteQuote() {
       try {
@@ -86,5 +92,8 @@ export default {
 <style scoped>
 .v-card {
   padding: 20px;
+}
+.v-img {
+  border-radius: 4px;
 }
 </style>
