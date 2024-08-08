@@ -4,7 +4,7 @@ import HomePage from "@/components/HomePage.vue";
 import CustomizeCategoriesPage from "@/components/CustomizeCategoriesPage.vue";
 import LoginPage from "@/components/LoginPage.vue";
 import RegisterPage from "@/components/RegisterPage.vue";
-import FavioratePage from "@/components/FavioratePage.vue";
+import FavioratePage from "@/components/FavoritePage.vue";
 import MissedQuotesPage from "@/components/MissedQuotesPage.vue";
 
 Vue.use(Router);

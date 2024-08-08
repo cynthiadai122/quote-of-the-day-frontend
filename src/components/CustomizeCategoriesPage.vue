@@ -15,7 +15,7 @@
           class="rounded-lg"
           @click="toggleCategorySelection(category.id)"
           :style="{
-            border: isSelected(category.id) ? '2px solid gery' : 'none',
+            border: isSelected(category.id) ? '2px solid grey' : 'none',
             position: 'relative'
           }"
           tile
@@ -26,6 +26,12 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <v-snackbar v-model="snackbar.show" :color="snackbar.color" multi-line>
+      {{ snackbar.message }}
+      <v-btn text @click="snackbar.show = false">Close</v-btn>
+    </v-snackbar>
+
     <v-row class="justify-end">
       <v-col cols="auto">
         <v-btn color="success" @click="saveCategories" class="save-button">
@@ -45,6 +51,11 @@ export default {
     return {
       categories: [],
       selectedCategories: [],
+      snackbar: {
+        show: false,
+        message: '',
+        color: '',
+      },
     };
   },
   methods: {
@@ -71,10 +82,14 @@ export default {
     async saveCategories() {
       try {
         await axios.post('/user/categories', { categories: this.selectedCategories });
-        alert('Categories saved successfully!');
+        this.snackbar.message = 'Categories saved successfully!';
+        this.snackbar.color = 'success';
       } catch (error) {
         console.error('Error saving categories:', error);
-        alert('Failed to save categories.');
+        this.snackbar.message = 'Failed to save categories.';
+        this.snackbar.color = 'error';
+      } finally {
+        this.snackbar.show = true;
       }
     },
   },
@@ -91,7 +106,7 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.7);
   z-index: 1;
 }
 </style>
