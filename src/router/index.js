@@ -33,7 +33,7 @@ export default new Router({
       component: RegisterPage
     },
     {
-      path: "/favoriates",
+      path: "/favorites",
       name: "favoriteQuotes",
       component: FavioratePage
     },

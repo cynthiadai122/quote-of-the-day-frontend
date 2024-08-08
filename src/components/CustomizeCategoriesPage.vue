@@ -2,22 +2,35 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1>Select Category</h1>
+        <h1>Select Your Favorite Categories</h1>
+        <p>
+          Select the categories you want to see on your home page. If no
+          categories are selected, they will be randomly chosen for you.
+        </p>
       </v-col>
     </v-row>
     <v-row>
       <v-col v-for="category in categories" :key="category.id" cols="12" md="4">
         <v-card
-          :color="isSelected(category.id) ? 'grey' : 'white'"
+          class="rounded-lg"
           @click="toggleCategorySelection(category.id)"
+          :style="{
+            border: isSelected(category.id) ? '2px solid gery' : 'none',
+            position: 'relative'
+          }"
+          tile
         >
-          <v-card-title>{{ category.name }}</v-card-title>
+          <v-img :src="category.image" height="200px"></v-img>
+          <v-card-title class="text-center">{{ category.name }}</v-card-title>
+          <div v-if="isSelected(category.id)" class="overlay"></div>
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <v-btn color="success" @click="saveCategories">Save</v-btn>
+    <v-row class="justify-end">
+      <v-col cols="auto">
+        <v-btn color="success" @click="saveCategories" class="save-button">
+          Save
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -70,3 +83,15 @@ export default {
   },
 };
 </script>
+
+<style>
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.6);
+  z-index: 1;
+}
+</style>
