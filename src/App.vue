@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-navigation-drawer
+      v-if="isLogin || currentUser"
       v-model="drawer"
       app
       clipped
@@ -9,31 +10,31 @@
       permanent
     >
       <v-list dense rounded nav>
-        <v-list-item :to="{name:'Home'}">
+        <v-list-item :to="{ name: 'homePage' }">
           <v-list-item-icon>
             <v-icon>mdi-home</v-icon>
           </v-list-item-icon>
           <v-list-item-title> Home </v-list-item-title>
         </v-list-item>
-        <v-list-item :to="{name:'customizeCategories'}">
+        <v-list-item :to="{ name: 'customizeCategories' }">
           <v-list-item-icon>
             <v-icon>mdi-cogs</v-icon>
           </v-list-item-icon>
           <v-list-item-title> Customize Categories </v-list-item-title>
         </v-list-item>
-        <v-list-item :to="{name:'missedQuotes'}">
+        <v-list-item :to="{ name: 'missedQuotes' }">
           <v-list-item-icon>
             <v-icon>mdi-calendar-alert</v-icon>
           </v-list-item-icon>
           <v-list-item-title> View Missed Quotes </v-list-item-title>
         </v-list-item>
-        <v-list-item :to="{name:'favoriteQuotes'}">
+        <v-list-item :to="{ name: 'favoriteQuotes' }">
           <v-list-item-icon>
             <v-icon>mdi-heart</v-icon>
           </v-list-item-icon>
-          <v-list-item-title> View Favoriates </v-list-item-title>
+          <v-list-item-title> View Favorites </v-list-item-title>
         </v-list-item>
-        <v-list-item @click="navigateTo('logout')">
+        <v-list-item @click="logout">
           <v-list-item-icon>
             <v-icon color="error">mdi-logout</v-icon>
           </v-list-item-icon>
@@ -49,27 +50,46 @@
 
 <script>
 import axios from '@/plugins/axios';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'App',
   data() {
     return {
-      drawer: false,
-      currentUser: null,
+      drawer: true,
+      currentUser:null
     };
   },
-  created(){
-    this.fetchCurrentUser();
+  computed: {
+    ...mapGetters([
+      'isLogin'
+    ]),
   },
-  methods:{
+  async created(){
+    await this.fetchCurrentUser();
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('token');
+      this.currentUser = null
+      this.redirectToLogin();
+    },
+    redirectToLogin() {
+      if (this.$route.name !== 'login') {
+        this.$router.push({ name: 'login' });
+      }
+    },
     async fetchCurrentUser() {
       try {
         const response = await axios.get('/user');
-        this.currentUser = response.data;
+        this.currentUser = response.data
       } catch (error) {
         console.error('Error fetching user information:', error);
+        if (this.$route.name !== 'login') {
+          this.$router.push({ name: 'login' });
+        }
       }
     },
-  }
+  },
 };
 </script>

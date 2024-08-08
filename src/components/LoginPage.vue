@@ -11,6 +11,7 @@
                 label="Email"
                 type="email"
                 required
+                :error-messages="emailErrors"
               ></v-text-field>
               <v-text-field
                 v-model="password"
@@ -18,6 +19,12 @@
                 type="password"
                 required
               ></v-text-field>
+              <v-alert
+                v-if="errorMessage"
+                type="error"
+                dismissible
+                >{{ errorMessage }}</v-alert
+              >
               <v-btn color="primary" type="submit" block>Login</v-btn>
             </v-form>
             <v-divider class="my-4"></v-divider>
@@ -33,6 +40,7 @@
 
 <script>
 import axios from '@/plugins/axios';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'LoginPage',
@@ -40,9 +48,12 @@ export default {
     return {
       email: '',
       password: '',
+      errorMessage: '',
+      emailErrors: [],
     };
   },
   methods: {
+    ...mapActions(['setIsLogin']),
     async login() {
       try {
         const response = await axios.post('/login', {
@@ -51,9 +62,15 @@ export default {
         });
         const token = response.data.token;
         localStorage.setItem('token', token);
+        this.setIsLogin(true);
         this.$router.push('/');
       } catch (error) {
-        console.error('Login failed:', error);
+        if (error.response && error.response.data) {
+          this.errorMessage = error.response.data.message || 'Login failed';
+          this.emailErrors = error.response.data.errors.email || [];
+        } else {
+          this.errorMessage = 'An unexpected error occurred. Please try again.';
+        }
       }
     },
   },

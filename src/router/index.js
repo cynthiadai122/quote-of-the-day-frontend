@@ -14,7 +14,7 @@ export default new Router({
   routes: [
     {
       path: "",
-      name: "Home",
+      name: "homePage",
       component: HomePage
     },
     {
@@ -24,12 +24,12 @@ export default new Router({
     },
     {
       path: "/login",
-      name: "Login",
+      name: "login",
       component: LoginPage
     },
     {
       path: "/register",
-      name: "Register",
+      name: "register",
       component: RegisterPage
     },
     {

@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="6">
-        <v-card class="rounded-xl">
+        <v-card v-if="quote" class="rounded-lg">
           <v-img
             :src="quote.background"
             height="200px"
@@ -40,7 +40,6 @@ export default {
     return {
       quote: null,
       isFavorite: false,
-      currentUser: null,
     };
   },
   async created() {
