@@ -50,7 +50,7 @@
 
 <script>
 import axios from '@/plugins/axios';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'App',
@@ -69,9 +69,11 @@ export default {
     await this.fetchCurrentUser();
   },
   methods: {
+    ...mapActions(['setIsLogin']),
     logout() {
       localStorage.removeItem('token');
       this.currentUser = null
+      this.setIsLogin(false)
       this.redirectToLogin();
     },
     redirectToLogin() {
