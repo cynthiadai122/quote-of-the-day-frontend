@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid fill-height>
+  <v-container fluid>
     <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="6">
         <v-card class="rounded-xl">
@@ -18,19 +18,6 @@
             >
           </v-card-subtitle>
           <v-card-actions>
-            <v-btn
-              class="rounded-lg ml-2"
-              color="primary"
-              @click="customizeCategories"
-            >
-              Customize Categories
-            </v-btn>
-            <v-btn class="rounded-lg" @click="viewMissedQuotes"
-              >View Missed Quotes</v-btn
-            >
-            <v-btn class="rounded-lg" @click="viewFaviorateQuotes"
-              >View Faviorate Quotes</v-btn
-            >
             <v-spacer />
             <v-btn @click="toggleFavoriteQuote" icon>
               <v-icon :color="isFavorite ? 'red' : 'grey'">
@@ -53,6 +40,7 @@ export default {
     return {
       quote: null,
       isFavorite: false,
+      currentUser: null,
     };
   },
   async created() {
@@ -79,18 +67,12 @@ export default {
         console.error('Error checking favorite status:', error);
       }
     },
-    customizeCategories() {
-      this.$router.push('/customize-categories');
-    },
-    viewMissedQuotes() {
-      this.$router.push('/missed');
-    },
-    viewFaviorateQuotes(){
-      this.$router.push('/favoriates');
-    },
+
     async toggleFavoriteQuote() {
       try {
-        console.log(this.quote);
+        if (!this.quote || !this.quote.id) {
+          throw new Error('Quote ID is not available');
+        }
         await axios.post('/favorite/toggle', { "quote_id": this.quote.id });
         await this.checkIfFavorite();
       } catch (error) {

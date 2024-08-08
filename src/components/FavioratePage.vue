@@ -58,12 +58,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.v-card {
-  margin-bottom: 20px;
-}
-.v-img {
-  border-radius: 4px 4px 0 0;
-}
-</style>

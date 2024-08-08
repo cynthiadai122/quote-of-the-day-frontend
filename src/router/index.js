@@ -13,13 +13,13 @@ export default new Router({
   mode: "history",
   routes: [
     {
-      path: "/",
+      path: "",
       name: "Home",
       component: HomePage
     },
     {
       path: "/customize-categories",
-      name: "Customize Categories",
+      name: "customizeCategories",
       component: CustomizeCategoriesPage
     },
     {
@@ -34,12 +34,12 @@ export default new Router({
     },
     {
       path: "/favoriates",
-      name: "Favorite Quotes",
+      name: "favoriteQuotes",
       component: FavioratePage
     },
     {
       path: "/missed",
-      name: "Missed Quotes",
+      name: "missedQuotes",
       component: MissedQuotesPage
     }
   ]

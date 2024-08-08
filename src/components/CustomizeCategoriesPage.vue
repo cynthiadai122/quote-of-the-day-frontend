@@ -3,7 +3,6 @@
     <v-row>
       <v-col>
         <h1>Select Category</h1>
-        <v-btn color="primary" @click="$router.push('/')">Go to Home</v-btn>
       </v-col>
     </v-row>
     <v-row>
