@@ -2,11 +2,11 @@
   <v-container fluid fill-height>
     <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="6">
-        <v-card>
+        <v-card class="rounded-xl">
           <v-img
             :src="quote.background"
             height="200px"
-            class="white--text align-end"
+            class="white--text align-end rounded-lg"
           >
             <v-card-title class="headline">{{ quote.title }}</v-card-title>
           </v-img>
@@ -18,15 +18,24 @@
             >
           </v-card-subtitle>
           <v-card-actions>
-            <v-btn color="primary" @click="customizeCategories"
-              >Customize Categories</v-btn
-            >
-            <v-btn @click="viewMissedQuotes">View Missed Quotes</v-btn>
             <v-btn
-              @click="toggleFavoriteQuote"
-              :color="isFavorite ? 'pink' : 'grey'"
+              class="rounded-lg ml-2"
+              color="primary"
+              @click="customizeCategories"
             >
-              {{ isFavorite ? 'Unmark as Favorite' : 'Mark as Favorite' }}
+              Customize Categories
+            </v-btn>
+            <v-btn class="rounded-lg" @click="viewMissedQuotes"
+              >View Missed Quotes</v-btn
+            >
+            <v-btn class="rounded-lg" @click="viewFaviorateQuotes"
+              >View Faviorate Quotes</v-btn
+            >
+            <v-spacer />
+            <v-btn @click="toggleFavoriteQuote" icon>
+              <v-icon :color="isFavorite ? 'red' : 'grey'">
+                {{ isFavorite ? 'mdi-heart' : 'mdi-heart-outline' }}
+              </v-icon>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -61,8 +70,11 @@ export default {
     },
     async checkIfFavorite() {
       try {
-        const response = await axios.get('/favorites');
-        this.isFavorite = response.data.includes(this.quote?.id);
+        if (!this.quote || !this.quote.id) {
+          throw new Error('Quote ID is not available');
+        }
+        const response = await axios.get(`/quote/${this.quote.id}/is-favorite`);
+        this.isFavorite = response.data.is_favorite;
       } catch (error) {
         console.error('Error checking favorite status:', error);
       }
@@ -73,14 +85,14 @@ export default {
     viewMissedQuotes() {
       this.$router.push('/missed');
     },
+    viewFaviorateQuotes(){
+      this.$router.push('/favoriates');
+    },
     async toggleFavoriteQuote() {
       try {
-        if (this.isFavorite) {
-          await axios.delete(`/user/favorites/${this.quote.id}`);
-        } else {
-          await axios.post('/user/favorites', { quoteId: this.quote.id });
-        }
-        this.isFavorite = !this.isFavorite;
+        console.log(this.quote);
+        await axios.post('/favorite/toggle', { "quote_id": this.quote.id });
+        await this.checkIfFavorite();
       } catch (error) {
         console.error('Error toggling favorite status:', error);
       }
@@ -88,12 +100,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.v-card {
-  padding: 20px;
-}
-.v-img {
-  border-radius: 4px;
-}
-</style>

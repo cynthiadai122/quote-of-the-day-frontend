@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="rounded-lg">
     <v-img :src="quote.background" height="200px"></v-img>
     <v-card-title>{{ quote.title }}</v-card-title>
     <v-card-subtitle class="text-right">
