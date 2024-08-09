@@ -2,10 +2,16 @@
   <v-container fluid fill-height>
     <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="4">
-        <v-card>
+        <v-card class="rounded-xl">
           <v-card-title class="headline">Login</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="login">
+              <v-alert
+                v-if="errorMessage"
+                type="error"
+                dismissible
+                >{{ errorMessage }}</v-alert
+              >
               <v-text-field
                 v-model="email"
                 label="Email"
@@ -19,12 +25,6 @@
                 type="password"
                 required
               ></v-text-field>
-              <v-alert
-                v-if="errorMessage"
-                type="error"
-                dismissible
-                >{{ errorMessage }}</v-alert
-              >
               <v-btn color="primary" type="submit" block>Login</v-btn>
             </v-form>
             <v-divider class="my-4"></v-divider>

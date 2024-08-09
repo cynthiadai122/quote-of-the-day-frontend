@@ -2,10 +2,20 @@
   <v-container fluid fill-height>
     <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="4">
-        <v-card>
+        <v-card class="rounded-xl">
           <v-card-title class="headline">Register</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="register">
+              <v-alert
+                v-if="errorMessages.length"
+                type="error"
+                dismissible
+                class="mb-4"
+              >
+                <div v-for="(error, index) in errorMessages" :key="index">
+                  {{ error }}
+                </div>
+              </v-alert>
               <v-text-field
                 v-model="name"
                 label="Name"
@@ -17,12 +27,14 @@
                 label="Email"
                 type="email"
                 required
+                :error-messages="emailErrors"
               ></v-text-field>
               <v-text-field
                 v-model="password"
                 label="Password"
                 type="password"
                 required
+                :error-messages="passwordErrors"
               ></v-text-field>
               <v-text-field
                 v-model="passwordConfirmation"
@@ -54,10 +66,17 @@ export default {
       email: '',
       password: '',
       passwordConfirmation: '',
+      errorMessages: [],
+      emailErrors: [],
+      passwordErrors: [],
     };
   },
   methods: {
     async register() {
+      this.errorMessages = [];
+      this.emailErrors = [];
+      this.passwordErrors = [];
+
       try {
         const response = await axios.post('/register', {
           name: this.name,
@@ -69,7 +88,20 @@ export default {
         localStorage.setItem('token', token);
         this.$router.push('/');
       } catch (error) {
-        console.error('Registration failed:', error);
+        if (error.response && error.response.data.errors) {
+          const errors = error.response.data.errors;
+          if (errors.email) {
+            this.emailErrors = errors.email;
+          }
+          if (errors.password) {
+            this.passwordErrors = errors.password;
+          }
+          if (error.response.data.message) {
+            this.errorMessages.push(error.response.data.message);
+          }
+        } else {
+          this.errorMessages.push('Registration failed. Please try again.');
+        }
       }
     },
   },
