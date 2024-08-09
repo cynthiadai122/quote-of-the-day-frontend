@@ -1,5 +1,10 @@
 <template>
   <v-container fluid fill-height>
+    <v-row>
+      <v-col>
+        <h1>Favorite Quotes</h1>
+      </v-col>
+    </v-row>
     <v-row
       v-if="!quotes.length"
       align="center"

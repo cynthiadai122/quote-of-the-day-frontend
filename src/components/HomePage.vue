@@ -1,7 +1,21 @@
 <template>
   <v-container fluid>
+    <v-row>
+      <v-col>
+        <h1>Quote of the day</h1>
+      </v-col>
+    </v-row>
     <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="6">
+        <v-alert
+          v-if="errorMessage"
+          type="error"
+          border="left"
+          colored-border
+          class="mb-4"
+        >
+          {{ errorMessage }}
+        </v-alert>
         <v-card v-if="quote" class="rounded-lg">
           <v-img
             :src="quote.background"
@@ -10,12 +24,11 @@
           >
             <v-card-title class="headline">{{ quote.title }}</v-card-title>
           </v-img>
-          <v-card-subtitle v-if="quote">
+          <v-card-subtitle>
             <v-card-text>{{ quote.quote }}</v-card-text>
-            <v-card-subtitle
-              class="text-right"
-              >{{ quote.author }}</v-card-subtitle
-            >
+            <v-card-subtitle class="text-right">
+              {{ quote.author }}
+            </v-card-subtitle>
           </v-card-subtitle>
           <v-card-actions>
             <v-spacer />
@@ -40,11 +53,14 @@ export default {
     return {
       quote: null,
       isFavorite: false,
+      errorMessage: '',
     };
   },
   async created() {
     await this.fetchQuoteOfTheDay();
-    await this.checkIfFavorite();
+    if (this.quote) {
+      await this.checkIfFavorite();
+    }
   },
   methods: {
     async fetchQuoteOfTheDay() {
@@ -53,6 +69,11 @@ export default {
         this.quote = response.data;
       } catch (error) {
         console.error('Error fetching quote of the day:', error);
+        if (error.response && error.response.data && error.response.data.error) {
+          this.errorMessage = error.response.data.error;
+        } else {
+          this.errorMessage = 'An error occurred while fetching the quote of the day.';
+        }
       }
     },
     async checkIfFavorite() {
@@ -66,13 +87,12 @@ export default {
         console.error('Error checking favorite status:', error);
       }
     },
-
     async toggleFavoriteQuote() {
       try {
         if (!this.quote || !this.quote.id) {
           throw new Error('Quote ID is not available');
         }
-        await axios.post('/favorite/toggle', { "quote_id": this.quote.id });
+        await axios.post('/favorite/toggle', { quote_id: this.quote.id });
         await this.checkIfFavorite();
       } catch (error) {
         console.error('Error toggling favorite status:', error);
