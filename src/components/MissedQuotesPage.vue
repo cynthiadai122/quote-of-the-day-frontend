@@ -25,34 +25,34 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios';
-import QuoteCard from './Card/QuoteCard';
+  import axios from "@/plugins/axios"
+  import QuoteCard from "./Card/QuoteCard"
 
-export default {
-  name: 'MissedQuotesPage',
-  components: {
-    QuoteCard
-  },
-  data() {
-    return {
-      quotes: [],
-      loading: true,
-    };
-  },
-  async created() {
-    await this.fetchMissedQuotes();
-  },
-  methods: {
-    async fetchMissedQuotes() {
-      try {
-        const response = await axios.get('/missed-quotes');
-        this.quotes = response.data;
-      } catch (error) {
-        console.error('Error fetching missed quotes:', error);
-      } finally {
-        this.loading = false;
+  export default {
+    name: "MissedQuotesPage",
+    components: {
+      QuoteCard
+    },
+    data() {
+      return {
+        quotes: [],
+        loading: true
       }
     },
-  },
-};
+    async created() {
+      await this.fetchMissedQuotes()
+    },
+    methods: {
+      async fetchMissedQuotes() {
+        try {
+          const response = await axios.get("/missed-quotes")
+          this.quotes = response.data
+        } catch (error) {
+          console.error("Error fetching missed quotes:", error)
+        } finally {
+          this.loading = false
+        }
+      }
+    }
+  }
 </script>

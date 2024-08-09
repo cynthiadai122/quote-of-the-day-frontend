@@ -49,49 +49,47 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios';
-import { mapGetters, mapActions } from 'vuex';
+  import axios from "@/plugins/axios"
+  import { mapGetters, mapActions } from "vuex"
 
-export default {
-  name: 'App',
-  data() {
-    return {
-      drawer: true,
-      currentUser:null
-    };
-  },
-  computed: {
-    ...mapGetters([
-      'isLogin'
-    ]),
-  },
-  async created(){
-    await this.fetchCurrentUser();
-  },
-  methods: {
-    ...mapActions(['setIsLogin']),
-    logout() {
-      localStorage.removeItem('token');
-      this.currentUser = null
-      this.setIsLogin(false)
-      this.redirectToLogin();
-    },
-    redirectToLogin() {
-      if (this.$route.name !== 'login') {
-        this.$router.push({ name: 'login' });
+  export default {
+    name: "App",
+    data() {
+      return {
+        drawer: true,
+        currentUser: null
       }
     },
-    async fetchCurrentUser() {
-      try {
-        const response = await axios.get('/user');
-        this.currentUser = response.data
-      } catch (error) {
-        console.error('Error fetching user information:', error);
-        if (this.$route.name !== 'login') {
-          this.$router.push({ name: 'login' });
+    computed: {
+      ...mapGetters(["isLogin"])
+    },
+    async created() {
+      await this.fetchCurrentUser()
+    },
+    methods: {
+      ...mapActions(["setIsLogin"]),
+      logout() {
+        localStorage.removeItem("token")
+        this.currentUser = null
+        this.setIsLogin(false)
+        this.redirectToLogin()
+      },
+      redirectToLogin() {
+        if (this.$route.name !== "login") {
+          this.$router.push({ name: "login" })
+        }
+      },
+      async fetchCurrentUser() {
+        try {
+          const response = await axios.get("/user")
+          this.currentUser = response.data
+        } catch (error) {
+          console.error("Error fetching user information:", error)
+          if (this.$route.name !== "login") {
+            this.$router.push({ name: "login" })
+          }
         }
       }
-    },
-  },
-};
+    }
+  }
 </script>

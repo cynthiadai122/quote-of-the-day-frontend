@@ -34,7 +34,7 @@
             <v-spacer />
             <v-btn @click="toggleFavoriteQuote" icon>
               <v-icon :color="isFavorite ? 'red' : 'grey'">
-                {{ isFavorite ? 'mdi-heart' : 'mdi-heart-outline' }}
+                {{ isFavorite ? "mdi-heart" : "mdi-heart-outline" }}
               </v-icon>
             </v-btn>
           </v-card-actions>
@@ -45,59 +45,66 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios';
+  import axios from "@/plugins/axios"
 
-export default {
-  name: 'HomePage',
-  data() {
-    return {
-      quote: null,
-      isFavorite: false,
-      errorMessage: '',
-    };
-  },
-  async created() {
-    await this.fetchQuoteOfTheDay();
-    if (this.quote) {
-      await this.checkIfFavorite();
+  export default {
+    name: "HomePage",
+    data() {
+      return {
+        quote: null,
+        isFavorite: false,
+        errorMessage: ""
+      }
+    },
+    async created() {
+      await this.fetchQuoteOfTheDay()
+      if (this.quote) {
+        await this.checkIfFavorite()
+      }
+    },
+    methods: {
+      async fetchQuoteOfTheDay() {
+        try {
+          const response = await axios.get("/quote-of-the-day")
+          this.quote = response.data
+        } catch (error) {
+          console.error("Error fetching quote of the day:", error)
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.error
+          ) {
+            this.errorMessage = error.response.data.error
+          } else {
+            this.errorMessage =
+              "An error occurred while fetching the quote of the day."
+          }
+        }
+      },
+      async checkIfFavorite() {
+        try {
+          if (!this.quote || !this.quote.id) {
+            throw new Error("Quote ID is not available")
+          }
+          const response = await axios.get(
+            `/quote/${this.quote.id}/is-favorite`
+          )
+          this.isFavorite = response.data.is_favorite
+        } catch (error) {
+          console.error("Error checking favorite status:", error)
+        }
+      },
+      async toggleFavoriteQuote() {
+        try {
+          if (!this.quote || !this.quote.id) {
+            throw new Error("Quote ID is not available")
+          }
+          await axios.post("/favorite/toggle", { quote_id: this.quote.id })
+          await this.checkIfFavorite()
+        } catch (error) {
+          console.error("Error toggling favorite status:", error)
+        }
+      }
     }
-  },
-  methods: {
-    async fetchQuoteOfTheDay() {
-      try {
-        const response = await axios.get('/quote-of-the-day');
-        this.quote = response.data;
-      } catch (error) {
-        console.error('Error fetching quote of the day:', error);
-        if (error.response && error.response.data && error.response.data.error) {
-          this.errorMessage = error.response.data.error;
-        } else {
-          this.errorMessage = 'An error occurred while fetching the quote of the day.';
-        }
-      }
-    },
-    async checkIfFavorite() {
-      try {
-        if (!this.quote || !this.quote.id) {
-          throw new Error('Quote ID is not available');
-        }
-        const response = await axios.get(`/quote/${this.quote.id}/is-favorite`);
-        this.isFavorite = response.data.is_favorite;
-      } catch (error) {
-        console.error('Error checking favorite status:', error);
-      }
-    },
-    async toggleFavoriteQuote() {
-      try {
-        if (!this.quote || !this.quote.id) {
-          throw new Error('Quote ID is not available');
-        }
-        await axios.post('/favorite/toggle', { quote_id: this.quote.id });
-        await this.checkIfFavorite();
-      } catch (error) {
-        console.error('Error toggling favorite status:', error);
-      }
-    },
-  },
-};
+  }
 </script>

@@ -43,70 +43,76 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios';
+  import axios from "@/plugins/axios"
 
-export default {
-  name: 'CategorySelectionPage',
-  data() {
-    return {
-      categories: [],
-      selectedCategories: [],
-      snackbar: {
-        show: false,
-        message: '',
-        color: '',
+  export default {
+    name: "CategorySelectionPage",
+    data() {
+      return {
+        categories: [],
+        selectedCategories: [],
+        snackbar: {
+          show: false,
+          message: "",
+          color: ""
+        }
+      }
+    },
+    methods: {
+      async fetchData() {
+        try {
+          const response = await axios.get("/categories")
+          this.categories = response.data
+          const userCategoriesResponse = await axios.get("/user/categories")
+          this.selectedCategories = userCategoriesResponse.data.map(
+            (cat) => cat.id
+          )
+        } catch (error) {
+          console.error("Error fetching data:", error)
+        }
       },
-    };
-  },
-  methods: {
-    async fetchData() {
-      try {
-        const response = await axios.get('/categories');
-        this.categories = response.data;
-        const userCategoriesResponse = await axios.get('/user/categories');
-        this.selectedCategories = userCategoriesResponse.data.map(cat => cat.id);
-      } catch (error) {
-        console.error('Error fetching data:', error);
+      isSelected(categoryId) {
+        return this.selectedCategories.includes(categoryId)
+      },
+      toggleCategorySelection(categoryId) {
+        if (this.isSelected(categoryId)) {
+          this.selectedCategories = this.selectedCategories.filter(
+            (id) => id !== categoryId
+          )
+        } else {
+          this.selectedCategories.push(categoryId)
+        }
+      },
+      async saveCategories() {
+        try {
+          await axios.post("/user/categories", {
+            categories: this.selectedCategories
+          })
+          this.snackbar.message = "Categories saved successfully!"
+          this.snackbar.color = "success"
+        } catch (error) {
+          console.error("Error saving categories:", error)
+          this.snackbar.message = "Failed to save categories."
+          this.snackbar.color = "error"
+        } finally {
+          this.snackbar.show = true
+        }
       }
     },
-    isSelected(categoryId) {
-      return this.selectedCategories.includes(categoryId);
-    },
-    toggleCategorySelection(categoryId) {
-      if (this.isSelected(categoryId)) {
-        this.selectedCategories = this.selectedCategories.filter(id => id !== categoryId);
-      } else {
-        this.selectedCategories.push(categoryId);
-      }
-    },
-    async saveCategories() {
-      try {
-        await axios.post('/user/categories', { categories: this.selectedCategories });
-        this.snackbar.message = 'Categories saved successfully!';
-        this.snackbar.color = 'success';
-      } catch (error) {
-        console.error('Error saving categories:', error);
-        this.snackbar.message = 'Failed to save categories.';
-        this.snackbar.color = 'error';
-      } finally {
-        this.snackbar.show = true;
-      }
-    },
-  },
-  created() {
-    this.fetchData();
-  },
-};
+    created() {
+      this.fetchData()
+    }
+  }
 </script>
 
 <style>
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.7);
-  z-index: 1;
-}
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 1;
+  }
 </style>

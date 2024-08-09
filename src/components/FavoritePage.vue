@@ -25,34 +25,34 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios';
-import QuoteCard from './Card/QuoteCard';
+  import axios from "@/plugins/axios"
+  import QuoteCard from "./Card/QuoteCard"
 
-export default {
-  name: 'FavoritePage',
-  components: {
-    QuoteCard,
-  },
-  data() {
-    return {
-      quotes: [],
-      loading: true,
-    };
-  },
-  async created() {
-    await this.fetchFavoriteQuotes();
-  },
-  methods: {
-    async fetchFavoriteQuotes() {
-      try {
-        const response = await axios.get('/favorites');
-        this.quotes = response.data.data;
-      } catch (error) {
-        console.error('Error fetching favorite quotes:', error);
-      } finally {
-        this.loading = false;
+  export default {
+    name: "FavoritePage",
+    components: {
+      QuoteCard
+    },
+    data() {
+      return {
+        quotes: [],
+        loading: true
       }
     },
-  },
-};
+    async created() {
+      await this.fetchFavoriteQuotes()
+    },
+    methods: {
+      async fetchFavoriteQuotes() {
+        try {
+          const response = await axios.get("/favorites")
+          this.quotes = response.data.data
+        } catch (error) {
+          console.error("Error fetching favorite quotes:", error)
+        } finally {
+          this.loading = false
+        }
+      }
+    }
+  }
 </script>

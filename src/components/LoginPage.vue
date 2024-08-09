@@ -6,12 +6,9 @@
           <v-card-title class="headline">Login</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="login">
-              <v-alert
-                v-if="errorMessage"
-                type="error"
-                dismissible
-                >{{ errorMessage }}</v-alert
-              >
+              <v-alert v-if="errorMessage" type="error" dismissible>{{
+                errorMessage
+              }}</v-alert>
               <v-text-field
                 v-model="email"
                 label="Email"
@@ -39,40 +36,41 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios';
-import { mapActions } from 'vuex';
+  import axios from "@/plugins/axios"
+  import { mapActions } from "vuex"
 
-export default {
-  name: 'LoginPage',
-  data() {
-    return {
-      email: '',
-      password: '',
-      errorMessage: '',
-      emailErrors: [],
-    };
-  },
-  methods: {
-    ...mapActions(['setIsLogin']),
-    async login() {
-      try {
-        const response = await axios.post('/login', {
-          email: this.email,
-          password: this.password,
-        });
-        const token = response.data.token;
-        localStorage.setItem('token', token);
-        this.setIsLogin(true);
-        this.$router.push('/');
-      } catch (error) {
-        if (error.response && error.response.data) {
-          this.errorMessage = error.response.data.message || 'Login failed';
-          this.emailErrors = error.response.data.errors.email || [];
-        } else {
-          this.errorMessage = 'An unexpected error occurred. Please try again.';
-        }
+  export default {
+    name: "LoginPage",
+    data() {
+      return {
+        email: "",
+        password: "",
+        errorMessage: "",
+        emailErrors: []
       }
     },
-  },
-};
+    methods: {
+      ...mapActions(["setIsLogin"]),
+      async login() {
+        try {
+          const response = await axios.post("/login", {
+            email: this.email,
+            password: this.password
+          })
+          const token = response.data.token
+          localStorage.setItem("token", token)
+          this.setIsLogin(true)
+          this.$router.push("/")
+        } catch (error) {
+          if (error.response && error.response.data) {
+            this.errorMessage = error.response.data.message || "Login failed"
+            this.emailErrors = error.response.data.errors.email || []
+          } else {
+            this.errorMessage =
+              "An unexpected error occurred. Please try again."
+          }
+        }
+      }
+    }
+  }
 </script>

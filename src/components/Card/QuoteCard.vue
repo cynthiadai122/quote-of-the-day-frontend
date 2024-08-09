@@ -10,7 +10,7 @@
       <p>
         <strong>Date:</strong> {{ new Date(quote.date).toLocaleDateString() }}
       </p>
-      <p><strong>Tags:</strong> {{ quote.tags.join(', ') }}</p>
+      <p><strong>Tags:</strong> {{ quote.tags.join(", ") }}</p>
     </v-card-text>
     <v-card-actions>
       <v-btn :href="quote.permalink" target="_blank" text color="primary">
@@ -21,13 +21,13 @@
 </template>
 
 <script>
-export default {
-  name: 'QuoteCard',
-  props: {
-    quote: {
-      type: Object,
-      required: true
+  export default {
+    name: "QuoteCard",
+    props: {
+      quote: {
+        type: Object,
+        required: true
+      }
     }
   }
-};
 </script>
