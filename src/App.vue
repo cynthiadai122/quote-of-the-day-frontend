@@ -85,7 +85,7 @@
           this.currentUser = response.data
         } catch (error) {
           console.error("Error fetching user information:", error)
-          if (this.$route.name !== "login") {
+          if (this.$route.name !== "login" && this.$route.name !== "register") {
             this.$router.push({ name: "login" })
           }
         }

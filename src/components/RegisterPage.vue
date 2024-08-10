@@ -5,12 +5,13 @@
         <v-card class="rounded-xl">
           <v-card-title class="headline">Register</v-card-title>
           <v-card-text>
-            <v-form @submit.prevent="register">
+            <v-form @submit.prevent="register" data-cy="register-form">
               <v-alert
                 v-if="errorMessages.length"
                 type="error"
                 dismissible
                 class="mb-4"
+                data-cy="register-alert"
               >
                 <div v-for="(error, index) in errorMessages" :key="index">
                   {{ error }}
@@ -21,6 +22,7 @@
                 label="Name"
                 type="text"
                 required
+                data-cy="name-field"
               ></v-text-field>
               <v-text-field
                 v-model="email"
@@ -28,6 +30,7 @@
                 type="email"
                 required
                 :error-messages="emailErrors"
+                data-cy="email-field"
               ></v-text-field>
               <v-text-field
                 v-model="password"
@@ -35,17 +38,26 @@
                 type="password"
                 required
                 :error-messages="passwordErrors"
+                data-cy="password-field"
               ></v-text-field>
               <v-text-field
                 v-model="passwordConfirmation"
                 label="Confirm Password"
                 type="password"
                 required
+                data-cy="confirm-password-field"
               ></v-text-field>
-              <v-btn color="primary" type="submit" block>Register</v-btn>
+              <v-btn color="primary" type="submit" block data-cy="register-btn">
+                Register
+              </v-btn>
             </v-form>
             <v-divider class="my-4"></v-divider>
-            <v-btn text @click="$router.push('/login')" class="blue--text">
+            <v-btn
+              text
+              @click="$router.push('/login')"
+              class="blue--text"
+              data-cy="login-link"
+            >
               Already have an account? Login
             </v-btn>
           </v-card-text>

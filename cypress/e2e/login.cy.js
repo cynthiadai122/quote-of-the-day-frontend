@@ -18,4 +18,11 @@ describe("Login Page", () => {
       "The provided credentials are incorrect."
     )
   })
+
+  it("should successfully log in with valid credentials", () => {
+    cy.get("[data-cy=email-field]").type("test@gmail.com")
+    cy.get("[data-cy=password-field]").type("password")
+    cy.get("[data-cy=submit-btn]").click()
+    cy.url().should("include", "/")
+  })
 })
