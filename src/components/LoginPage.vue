@@ -5,12 +5,17 @@
         <v-card class="rounded-xl">
           <v-card-title class="headline">Login</v-card-title>
           <v-card-text>
-            <v-form @submit.prevent="login">
-              <v-alert v-if="errorMessage" type="error" dismissible>{{
-                errorMessage
-              }}</v-alert>
+            <v-form @submit.prevent="login" data-cy="login-form">
+              <v-alert
+                v-if="errorMessage"
+                type="error"
+                dismissible
+                data-cy="login-alert"
+                >{{ errorMessage }}</v-alert
+              >
               <v-text-field
                 v-model="email"
+                data-cy="email-field"
                 label="Email"
                 type="email"
                 required
@@ -18,11 +23,14 @@
               ></v-text-field>
               <v-text-field
                 v-model="password"
+                data-cy="password-field"
                 label="Password"
                 type="password"
                 required
               ></v-text-field>
-              <v-btn color="primary" type="submit" block>Login</v-btn>
+              <v-btn data-cy="submit-btn" color="primary" type="submit" block
+                >Login</v-btn
+              >
             </v-form>
             <v-divider class="my-4"></v-divider>
             <v-btn text class="blue--text" @click="$router.push('/register')"
