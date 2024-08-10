@@ -16,23 +16,25 @@
         >
           {{ errorMessage }}
         </v-alert>
-        <v-card v-if="quote" class="rounded-lg">
+        <v-card v-if="quote" class="rounded-lg" data-cy="quote">
           <v-img
             :src="quote.background"
             height="200px"
             class="white--text align-end rounded-lg"
           >
-            <v-card-title class="headline">{{ quote.title }}</v-card-title>
+            <v-card-title class="headline" data-cy="quote-title">{{
+              quote.title
+            }}</v-card-title>
           </v-img>
           <v-card-subtitle>
-            <v-card-text>{{ quote.quote }}</v-card-text>
-            <v-card-subtitle class="text-right">
+            <v-card-text data-cy="quote-text">{{ quote.quote }}</v-card-text>
+            <v-card-subtitle class="text-right" data-cy="quote-author">
               {{ quote.author }}
             </v-card-subtitle>
           </v-card-subtitle>
           <v-card-actions>
             <v-spacer />
-            <v-btn @click="toggleFavoriteQuote" icon>
+            <v-btn @click="toggleFavoriteQuote" icon data-cy="favorite-btn">
               <v-icon :color="isFavorite ? 'red' : 'grey'">
                 {{ isFavorite ? "mdi-heart" : "mdi-heart-outline" }}
               </v-icon>
