@@ -1,6 +1,6 @@
 <template>
   <v-container fluid fill-height>
-    <v-row>
+    <v-row v-if="quotes.length">
       <v-col>
         <h1>Favorite Quotes</h1>
       </v-col>
@@ -18,7 +18,7 @@
     </v-row>
     <v-row v-else>
       <v-col v-for="quote in quotes" :key="quote.id" cols="12" sm="6" md="4">
-        <quote-card :quote="quote" />
+        <quote-card :quote="quote" data-cy="quote-card" />
       </v-col>
     </v-row>
   </v-container>
