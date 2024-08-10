@@ -19,6 +19,7 @@
             position: 'relative'
           }"
           tile
+          data-cy="category-card"
         >
           <v-img :src="category.image" height="200px"></v-img>
           <v-card-title class="text-center">{{ category.name }}</v-card-title>
@@ -27,14 +28,24 @@
       </v-col>
     </v-row>
 
-    <v-snackbar v-model="snackbar.show" :color="snackbar.color" multi-line>
+    <v-snackbar
+      v-model="snackbar.show"
+      :color="snackbar.color"
+      multi-line
+      data-cy="snackbar"
+    >
       {{ snackbar.message }}
       <v-btn text @click="snackbar.show = false">Close</v-btn>
     </v-snackbar>
 
     <v-row class="justify-end">
       <v-col cols="auto">
-        <v-btn color="success" @click="saveCategories" class="save-button">
+        <v-btn
+          color="success"
+          @click="saveCategories"
+          class="save-button"
+          data-cy="save-button"
+        >
           Save
         </v-btn>
       </v-col>

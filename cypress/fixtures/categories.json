@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "name": "inspire",
+    "image": "https://theysaidso.com/assets/images/qod/qod-inspire.jpg",
+    "created_at": "2024-08-08T12:30:45.000000Z",
+    "updated_at": "2024-08-08T12:30:45.000000Z"
+  },
+  {
+    "id": 2,
+    "name": "life",
+    "image": "https://theysaidso.com/assets/images/qod/qod-life.jpg",
+    "created_at": "2024-08-08T12:30:45.000000Z",
+    "updated_at": "2024-08-08T12:30:45.000000Z"
+  },
+  {
+    "id": 3,
+    "name": "love",
+    "image": "https://theysaidso.com/assets/images/qod/qod-love.jpg",
+    "created_at": "2024-08-08T12:30:45.000000Z",
+    "updated_at": "2024-08-08T12:30:45.000000Z"
+  },
+  {
+    "id": 4,
+    "name": "management",
+    "image": "https://theysaidso.com/assets/images/qod/qod-management.jpg",
+    "created_at": "2024-08-08T12:30:45.000000Z",
+    "updated_at": "2024-08-08T12:30:45.000000Z"
+  },
+  {
+    "id": 5,
+    "name": "sports",
+    "image": "https://theysaidso.com/assets/images/qod/qod-sports.jpg",
+    "created_at": "2024-08-08T12:30:45.000000Z",
+    "updated_at": "2024-08-08T12:30:45.000000Z"
+  },
+  {
+    "id": 6,
+    "name": "funny",
+    "image": "https://theysaidso.com/assets/images/qod/qod-funny.jpg",
+    "created_at": "2024-08-08T12:30:45.000000Z",
+    "updated_at": "2024-08-08T12:30:45.000000Z"
+  },
+  {
+    "id": 7,
+    "name": "art",
+    "image": "https://theysaidso.com/assets/images/qod/qod-art.jpg",
+    "created_at": "2024-08-08T12:30:45.000000Z",
+    "updated_at": "2024-08-08T12:30:45.000000Z"
+  },
+  {
+    "id": 8,
+    "name": "students",
+    "image": "https://theysaidso.com/assets/images/qod/qod-students.jpg",
+    "created_at": "2024-08-08T12:30:45.000000Z",
+    "updated_at": "2024-08-08T12:30:45.000000Z"
+  }
+]
